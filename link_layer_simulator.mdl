@@ -1,12 +1,17 @@
 Model {
-  Name			  "simulate"
+  Name			  "link_layer_simulator"
   Version		  7.7
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
-    NumRootOutports	    0
+    NumRootOutports	    1
+    Outport {
+      BusObject		      ""
+      BusOutputAsStruct	      "off"
+      Name		      "Out1"
+    }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.112"
+    ComputedModelVersion    "1.113"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -26,9 +31,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "skyf"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Nov  6 18:43:56 2012"
-  RTWModifiedTimeStamp	  274125105
-  ModelVersionFormat	  "1.%<AutoIncrement:112>"
+  LastModifiedDate	  "Tue Nov  6 19:32:51 2012"
+  RTWModifiedTimeStamp	  274131036
+  ModelVersionFormat	  "1.%<AutoIncrement:113>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -65,6 +70,7 @@ Model {
     $ObjectID		    1
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "simulate"
+    signals_		    []
     overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
@@ -669,9 +675,26 @@ Model {
       Floating		      off
       SampleTime	      "-1"
     }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: auto"
+      LockScale		      off
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      VarSizeSig	      "Inherit"
+      SampleTime	      "-1"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      SourceOfInitialOutputValue "Dialog"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
   }
   System {
-    Name		    "simulate"
+    Name		    "link_layer_simulator"
     Location		    [114, 365, 1277, 1012]
     Open		    on
     ModelBrowserVisibility  off
@@ -686,7 +709,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "18"
+    SIDHighWatermark	    "19"
     Block {
       BlockType		      Reference
       Name		      "AWGN\nChannel"
@@ -710,7 +733,7 @@ Model {
       InputProcessing	      "Columns as channels (frame based)"
       seed		      "67"
       noiseMode		      "Signal to noise ratio  (Eb/No)"
-      EbNodB		      "20"
+      EbNodB		      "ebno"
       EsNodB		      "10"
       SNRdB		      "10"
       bitsPerSym	      "2"
@@ -934,6 +957,13 @@ Model {
       reset		      off
       outDataType	      "boolean"
     }
+    Block {
+      BlockType		      Outport
+      Name		      "Out1"
+      SID		      "19"
+      Position		      [1020, 192, 1110, 248]
+      IconDisplay	      "Port number"
+    }
     Line {
       SrcBlock		      "Bernoulli Binary\nGenerator"
       SrcPort		      1
@@ -952,8 +982,16 @@ Model {
     Line {
       SrcBlock		      "Error Rate\nCalculation"
       SrcPort		      1
-      DstBlock		      "Error Rate Display"
-      DstPort		      1
+      Points		      [15, 0]
+      Branch {
+	DstBlock		"Error Rate Display"
+	DstPort			1
+      }
+      Branch {
+	Points			[5, 0]
+	DstBlock		"Out1"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "Digital Clock"
