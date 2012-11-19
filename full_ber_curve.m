@@ -16,14 +16,14 @@ else
     use_dbpsk = dbpsk
 end
 
-m = code.numStates;
+m = floor(log2(max(code)))+1;
 
 ebnos = [];
 bers = [];
 ebno = 0;
 ber = 1;
 max_ebno = 500
-trellis = code
+trellis = poly2trellis(m, code)
 
 while ber > 1e-5 && ebno < max_ebno    
     [t,x,y] = sim('link_layer_simulator');
@@ -31,11 +31,11 @@ while ber > 1e-5 && ebno < max_ebno
     ber = y(1);
     bers = [bers ber];
     ebnos = [ebnos ebno];
-    ebno = ebno + 1
+    ebno = ebno + 5
 end
 
 plot(ebnos,bers,'-.or'); %hold on;
-title('Bit Error Rate vs E_b/N_0');
+title(['Performance for ' int2str(code)]);
 xlabel('E_b/N_0');
 ylabel('Bit Error Rate')
 

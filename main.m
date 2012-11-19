@@ -1,18 +1,14 @@
 open_system('link_layer_simulator');
 
+%global trellis use_rayleigh use_dbpsk m ebno;
 
-global trellis use_rayleigh use_dbpsk m ebno;
+    
+per = all_codes(2, 2);
 
-trellis = poly2trellis(1, 1);
-use_rayleigh = 0;
-use_dbpsk = 0;
-m = 1;
-ebno = 0;
-
-
-
-full_ber_curve( poly2trellis(2, [1 3]) )
-
+for i = 1:length(per)
+    figure
+    full_ber_curve( per(i,:) )
+end
 
 
 %print(gcf, 'ebno.png', '-dpng')
