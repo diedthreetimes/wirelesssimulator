@@ -11,7 +11,7 @@ Model {
       Name		      "Out1"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.113"
+    ComputedModelVersion    "1.117"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -31,9 +31,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "skyf"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Nov  6 19:32:51 2012"
-  RTWModifiedTimeStamp	  274131036
-  ModelVersionFormat	  "1.%<AutoIncrement:113>"
+  LastModifiedDate	  "Sun Nov 18 20:53:14 2012"
+  RTWModifiedTimeStamp	  275170828
+  ModelVersionFormat	  "1.%<AutoIncrement:117>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -665,6 +665,19 @@ Model {
   }
   BlockParameterDefaults {
     Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      SamplingMode	      "Sample based"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit from 'Constant value'"
+      LockScale		      off
+      SampleTime	      "inf"
+      FramePeriod	      "inf"
+      PreserveConstantTs      off
+    }
+    Block {
       BlockType		      DigitalClock
       SampleTime	      "1"
     }
@@ -692,10 +705,25 @@ Model {
       OutputWhenDisabled      "held"
       InitialOutput	      "[]"
     }
+    Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+      AllowDiffInputSizes     off
+    }
   }
   System {
     Name		    "link_layer_simulator"
-    Location		    [114, 365, 1277, 1012]
+    Location		    [541, 178, 1919, 986]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -709,13 +737,13 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "19"
+    SIDHighWatermark	    "36"
     Block {
       BlockType		      Reference
       Name		      "AWGN\nChannel"
       SID		      "16"
       Ports		      [1, 1]
-      Position		      [200, 541, 295, 599]
+      Position		      [175, 596, 270, 654]
       LibraryVersion	      "1.465"
       UserDataPersistent      on
       UserData		      "DataTag0"
@@ -736,7 +764,7 @@ Model {
       EbNodB		      "ebno"
       EsNodB		      "10"
       SNRdB		      "10"
-      bitsPerSym	      "2"
+      bitsPerSym	      "m"
       Ps		      "1"
       Tsym		      "1"
       variance		      "1"
@@ -744,9 +772,9 @@ Model {
     Block {
       BlockType		      Reference
       Name		      "BPSK\nDemodulator\nBaseband"
-      SID		      "15"
+      SID		      "29"
       Ports		      [1, 1]
-      Position		      [470, 405, 545, 455]
+      Position		      [575, 515, 650, 565]
       LibraryVersion	      "1.548"
       SourceBlock	      "commdigbbndpm3/BPSK\nDemodulator\nBaseband"
       SourceType	      "BPSK Demodulator Baseband"
@@ -761,9 +789,9 @@ Model {
     Block {
       BlockType		      Reference
       Name		      "BPSK\nModulator\nBaseband"
-      SID		      "14"
+      SID		      "30"
       Ports		      [1, 1]
-      Position		      [210, 406, 285, 454]
+      Position		      [90, 481, 165, 529]
       LibraryVersion	      "1.548"
       SourceBlock	      "commdigbbndpm3/BPSK\nModulator\nBaseband"
       SourceType	      "BPSK Modulator Baseband"
@@ -815,9 +843,30 @@ Model {
       Name		      "Clock Display"
       SID		      "13"
       Ports		      [1]
-      Position		      [1025, 274, 1105, 326]
+      Position		      [670, 14, 750, 66]
       Decimation	      "1"
       Lockdown		      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      SID		      "26"
+      Position		      [440, 700, 470, 730]
+      Value		      "use_rayleigh"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant1"
+      SID		      "33"
+      Position		      [220, 450, 250, 480]
+      Value		      "use_dbpsk"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant2"
+      SID		      "34"
+      Position		      [670, 465, 700, 495]
+      Value		      "use_dbpsk"
     }
     Block {
       BlockType		      Reference
@@ -828,7 +877,7 @@ Model {
       LibraryVersion	      "1.210"
       SourceBlock	      "commcnvcod2/Convolutional\nEncoder"
       SourceType	      "Convolutional Encoder"
-      trellis		      "poly2trellis(2, [1 3])"
+      trellis		      "trellis"
       opMode		      "Truncated (reset every frame)"
       DelayedResetAction      off
       hasIniStPort	      off
@@ -838,10 +887,52 @@ Model {
       reset		      "Unused parameter value"
     }
     Block {
+      BlockType		      Reference
+      Name		      "DBPSK\nDemodulator\nBaseband"
+      SID		      "32"
+      Ports		      [1, 1]
+      Position		      [575, 415, 650, 465]
+      LibraryVersion	      "1.548"
+      SourceBlock	      "commdigbbndpm3/DBPSK\nDemodulator\nBaseband"
+      SourceType	      "DBPSK Demodulator Baseband"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      Ph		      "0"
+      outDtype		      "Inherit via internal rule"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "DBPSK\nModulator\nBaseband"
+      SID		      "31"
+      Ports		      [1, 1]
+      Position		      [90, 411, 165, 459]
+      LibraryVersion	      "1.548"
+      SourceBlock	      "commdigbbndpm3/DBPSK\nModulator\nBaseband"
+      SourceType	      "DBPSK Modulator Baseband"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      GeneratePreprocessorConditionals off
+      Ph		      "0"
+      outDtype		      "double"
+    }
+    Block {
       BlockType		      DigitalClock
       Name		      "Digital Clock"
       SID		      "12"
-      Position		      [880, 288, 945, 312]
+      Position		      [525, 28, 590, 52]
     }
     Block {
       BlockType		      Reference
@@ -877,7 +968,7 @@ Model {
       Name		      "General Block\nDeinterleaver"
       SID		      "11"
       Ports		      [1, 1]
-      Position		      [465, 298, 545, 352]
+      Position		      [670, 298, 750, 352]
       LibraryVersion	      "1.61"
       SourceBlock	      "commblkintrlv2/General Block\nDeinterleaver"
       SourceType	      "General Block Deinterleaver"
@@ -899,7 +990,7 @@ Model {
       Name		      "Multipath Rayleigh\nFading Channel"
       SID		      "17"
       Ports		      [1, 1]
-      Position		      [310, 540, 405, 600]
+      Position		      [345, 595, 440, 655]
       LibraryVersion	      "1.465"
       SourceBlock	      "commchan3/Multipath Rayleigh\nFading Channel"
       SourceType	      "Multipath Rayleigh Fading Channel"
@@ -936,23 +1027,50 @@ Model {
       outDelay		      off
     }
     Block {
+      BlockType		      Switch
+      Name		      "Switch"
+      SID		      "28"
+      Position		      [585, 695, 635, 735]
+      Threshold		      "0.5"
+      InputSameDT	      off
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Switch
+      Name		      "Switch1"
+      SID		      "35"
+      Position		      [280, 445, 330, 485]
+      Threshold		      "0.5"
+      InputSameDT	      off
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Switch
+      Name		      "Switch2"
+      SID		      "36"
+      Position		      [740, 460, 790, 500]
+      Threshold		      "0.5"
+      InputSameDT	      off
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
       BlockType		      Reference
       Name		      "Viterbi Decoder"
       SID		      "9"
       Ports		      [1, 1]
-      Position		      [460, 192, 550, 248]
+      Position		      [665, 192, 755, 248]
       LibraryVersion	      "1.210"
       SourceBlock	      "commcnvcod2/Viterbi Decoder"
       SourceType	      "Viterbi Decoder"
-      trellis		      "poly2trellis(2, [1 3])"
+      trellis		      "trellis"
       isPunctured	      off
       punctureVector	      "[1; 1; 0; 1; 0; 1]"
       erasures		      off
       dectype		      "Hard decision"
       runSigValErrCheck	      off
-      nsdecb		      "4"
+      nsdecb		      "2"
       smWordLength	      "16"
-      tbdepth		      "34"
+      tbdepth		      "39"
       opmode		      "Truncated"
       reset		      off
       outDataType	      "boolean"
@@ -994,26 +1112,6 @@ Model {
       }
     }
     Line {
-      SrcBlock		      "Digital Clock"
-      SrcPort		      1
-      DstBlock		      "Clock Display"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "BPSK\nDemodulator\nBaseband"
-      SrcPort		      1
-      Points		      [0, -45; -100, 0]
-      DstBlock		      "General Block\nDeinterleaver"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "General Block\nInterleaver"
-      SrcPort		      1
-      Points		      [0, 70; -95, 0]
-      DstBlock		      "BPSK\nModulator\nBaseband"
-      DstPort		      1
-    }
-    Line {
       SrcBlock		      "Viterbi Decoder"
       SrcPort		      1
       Points		      [15, 0; 0, -90]
@@ -1028,6 +1126,46 @@ Model {
       DstPort		      1
     }
     Line {
+      Labels		      [0, 0]
+      SrcBlock		      "AWGN\nChannel"
+      SrcPort		      1
+      Points		      [25, 0]
+      Branch {
+	Points			[0, 160; 270, 0]
+	DstBlock		"Switch"
+	DstPort			3
+      }
+      Branch {
+	DstBlock		"Multipath Rayleigh\nFading Channel"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Constant"
+      SrcPort		      1
+      DstBlock		      "Switch"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Multipath Rayleigh\nFading Channel"
+      SrcPort		      1
+      Points		      [60, 0; 0, 75]
+      DstBlock		      "Switch"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Digital Clock"
+      SrcPort		      1
+      DstBlock		      "Clock Display"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      DstBlock		      "Switch1"
+      DstPort		      2
+    }
+    Line {
       SrcBlock		      "Convolutional\nEncoder"
       SrcPort		      1
       Points		      [0, 70; -105, 0]
@@ -1035,24 +1173,82 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "AWGN\nChannel"
+      SrcBlock		      "DBPSK\nModulator\nBaseband"
       SrcPort		      1
-      DstBlock		      "Multipath Rayleigh\nFading Channel"
+      Points		      [95, 0]
+      DstBlock		      "Switch1"
       DstPort		      1
     }
     Line {
       SrcBlock		      "BPSK\nModulator\nBaseband"
       SrcPort		      1
-      Points		      [0, 100; -105, 0]
+      Points		      [95, 0]
+      DstBlock		      "Switch1"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Switch1"
+      SrcPort		      1
+      Points		      [0, 95; -175, 0]
       DstBlock		      "AWGN\nChannel"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Multipath Rayleigh\nFading Channel"
+      SrcBlock		      "General Block\nInterleaver"
       SrcPort		      1
-      Points		      [20, 0; 0, -140]
-      DstBlock		      "BPSK\nDemodulator\nBaseband"
+      Points		      [0, 55; -230, 0]
+      Branch {
+	Points			[0, 55]
+	DstBlock		"DBPSK\nModulator\nBaseband"
+	DstPort			1
+      }
+      Branch {
+	Points			[-20, 0; 0, 125]
+	DstBlock		"BPSK\nModulator\nBaseband"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Constant2"
+      SrcPort		      1
+      DstBlock		      "Switch2"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "DBPSK\nDemodulator\nBaseband"
+      SrcPort		      1
+      Points		      [70, 0]
+      DstBlock		      "Switch2"
       DstPort		      1
+    }
+    Line {
+      SrcBlock		      "BPSK\nDemodulator\nBaseband"
+      SrcPort		      1
+      Points		      [70, 0]
+      DstBlock		      "Switch2"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Switch2"
+      SrcPort		      1
+      Points		      [0, -95; -140, 0]
+      DstBlock		      "General Block\nDeinterleaver"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Switch"
+      SrcPort		      1
+      Points		      [0, -105; -85, 0]
+      Branch {
+	Points			[-35, 0; 0, -170]
+	DstBlock		"DBPSK\nDemodulator\nBaseband"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -70]
+	DstBlock		"BPSK\nDemodulator\nBaseband"
+	DstPort			1
+      }
     }
   }
 }
