@@ -11,7 +11,7 @@ Model {
       Name		      "Out1"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.125"
+    ComputedModelVersion    "1.126"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -42,9 +42,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "skyf"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Dec  3 22:59:40 2012"
+  LastModifiedDate	  "Mon Dec  3 23:15:27 2012"
   RTWModifiedTimeStamp	  276469672
-  ModelVersionFormat	  "1.%<AutoIncrement:125>"
+  ModelVersionFormat	  "1.%<AutoIncrement:126>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -141,7 +141,7 @@ Model {
       Version		      "1.11.0"
       Array {
 	Type			"Handle"
-	Dimension		9
+	Dimension		10
 	Simulink.SolverCC {
 	  $ObjectID		  4
 	  Version		  "1.11.0"
@@ -630,6 +630,64 @@ Model {
 	  }
 	  HDLCActiveTab		  "0"
 	}
+	SSC.SimscapeCC {
+	  $ObjectID		  15
+	  Version		  "1.0"
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "Name"
+	    PropName		    "DisabledProps"
+	  }
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    1
+	    MECH.SimMechanicsCC {
+	      $ObjectID		      16
+	      Version		      "1.11.0"
+	      Name		      "SimMechanics"
+	      WarnOnRedundantConstraints on
+	      WarnOnSingularInitialAssembly off
+	      ShowCutJoints	      off
+	      VisOnUpdateDiagram      off
+	      VisDuringSimulation     off
+	      EnableVisSimulationTime on
+	      VisSampleTime	      "0"
+	      DisableBodyVisControl   off
+	      ShowCG		      on
+	      ShowCS		      on
+	      ShowOnlyPortCS	      off
+	      HighlightModel	      on
+	      FramesToBeSkipped	      "0"
+	      AnimationDelay	      "3"
+	      RecordAVI		      off
+	      CompressAVI	      on
+	      AutoFitVis	      "off"
+	      EnableSelection	      on
+	      LastVizWinPosition      "[-1 -1 -1 -1]"
+	      CamPosition	      "[0 0 0]"
+	      CamTarget		      "[0 0 -1]"
+	      CamUpVector	      "[0 1 0]"
+	      CamHeight		      "-1"
+	      CamViewAngle	      "0"
+	      VisBackgroundColor      "[0.9 0.9 0.95]"
+	      DefaultBodyColor	      "[1 0 0]"
+	      MDLBodyVisualizationType "Convex hull from body CS locations"
+	      OVRRIDBodyVisualizationType "NONE"
+	    }
+	    PropName		    "Components"
+	  }
+	  Name			  "Simscape"
+	  EditingMode		  "Full"
+	  ExplicitSolverDiagnosticOptions "warning"
+	  InputDerivativeDiagnosticOptions "warning"
+	  GlobalZcOffDiagnosticOptions "warning"
+	  SimscapeLogType	  "none"
+	  SimscapeLogName	  "simlog"
+	  SimscapeLogDecimation	  1
+	  SimscapeLogLimitData	  on
+	  SimscapeLogDataHistory  5000
+	}
 	PropName		"Components"
       }
       Name		      "Configuration"
@@ -699,6 +757,15 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Logic
+      Operator		      "AND"
+      Inputs		      "2"
+      IconShape		      "rectangular"
+      AllPortsSameDT	      on
+      OutDataTypeStr	      "Inherit: Logical (see Configuration Parameters: Optimization)"
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Outport
       Port		      "1"
       OutMin		      "[]"
@@ -762,7 +829,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "42"
+    SIDHighWatermark	    "48"
     Block {
       BlockType		      Reference
       Name		      "AWGN\nChannel"
@@ -906,6 +973,20 @@ Model {
       SID		      "40"
       Position		      [800, 215, 830, 245]
       Value		      "use_soft"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant5"
+      SID		      "44"
+      Position		      [325, 310, 355, 340]
+      Value		      "no_interleave"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant6"
+      SID		      "45"
+      Position		      [790, 325, 820, 355]
+      Value		      "no_interleave"
     }
     Block {
       BlockType		      Reference
@@ -1123,11 +1204,29 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
+      BlockType		      Switch
+      Name		      "Switch5"
+      SID		      "43"
+      Position		      [390, 305, 440, 345]
+      Threshold		      "0.5"
+      InputSameDT	      off
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Switch
+      Name		      "Switch6"
+      SID		      "46"
+      Position		      [910, 320, 960, 360]
+      Threshold		      "0.5"
+      InputSameDT	      off
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
       BlockType		      Reference
       Name		      "Viterbi Decoder"
       SID		      "9"
       Ports		      [1, 1]
-      Position		      [670, 202, 760, 258]
+      Position		      [665, 202, 755, 258]
       LibraryVersion	      "1.210"
       SourceBlock	      "commcnvcod2/Viterbi Decoder"
       SourceType	      "Viterbi Decoder"
@@ -1165,6 +1264,16 @@ Model {
       opmode		      "Truncated"
       reset		      off
       outDataType	      "boolean"
+    }
+    Block {
+      BlockType		      Logic
+      Name		      "not"
+      SID		      "48"
+      Ports		      [1, 1]
+      Position		      [855, 324, 885, 356]
+      Operator		      "NOT"
+      AllPortsSameDT	      off
+      OutDataTypeStr	      "boolean"
     }
     Block {
       BlockType		      Outport
@@ -1238,9 +1347,18 @@ Model {
     Line {
       SrcBlock		      "Convolutional\nEncoder"
       SrcPort		      1
-      Points		      [0, 70; -105, 0]
-      DstBlock		      "General Block\nInterleaver"
-      DstPort		      1
+      Points		      [0, 60]
+      Branch {
+	Labels			[2, 0]
+	Points			[0, 10; -105, 0]
+	DstBlock		"General Block\nInterleaver"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -5; 80, 0]
+	DstBlock		"Switch5"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "DBPSK\nModulator\nBaseband"
@@ -1262,21 +1380,6 @@ Model {
       Points		      [0, 95; -175, 0]
       DstBlock		      "AWGN\nChannel"
       DstPort		      1
-    }
-    Line {
-      SrcBlock		      "General Block\nInterleaver"
-      SrcPort		      1
-      Points		      [0, 55; -230, 0]
-      Branch {
-	Points			[0, 55]
-	DstBlock		"DBPSK\nModulator\nBaseband"
-	DstPort			1
-      }
-      Branch {
-	Points			[-20, 0; 0, 125]
-	DstBlock		"BPSK\nModulator\nBaseband"
-	DstPort			1
-      }
     }
     Line {
       SrcBlock		      "Constant2"
@@ -1301,9 +1404,16 @@ Model {
     Line {
       SrcBlock		      "Switch2"
       SrcPort		      1
-      Points		      [0, -95; -345, 0]
-      DstBlock		      "General Block\nDeinterleaver"
-      DstPort		      1
+      Points		      [0, -95; -105, 0]
+      Branch {
+	Points			[-240, 0]
+	DstBlock		"General Block\nDeinterleaver"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"Switch6"
+	DstPort			3
+      }
     }
     Line {
       SrcBlock		      "Switch"
@@ -1362,20 +1472,6 @@ Model {
       DstPort		      3
     }
     Line {
-      SrcBlock		      "General Block\nDeinterleaver"
-      SrcPort		      1
-      Points		      [0, -40; -100, 0; 0, -20]
-      Branch {
-	DstBlock		"Viterbi Decoder"
-	DstPort			1
-      }
-      Branch {
-	Points			[-5, 0]
-	DstBlock		"Viterbi Decoder1"
-	DstPort			1
-      }
-    }
-    Line {
       SrcBlock		      "Viterbi Decoder1"
       SrcPort		      1
       Points		      [80, 0]
@@ -1385,7 +1481,7 @@ Model {
     Line {
       SrcBlock		      "Viterbi Decoder"
       SrcPort		      1
-      Points		      [20, 0; 0, 35; 60, 0; 0, -20]
+      Points		      [25, 0; 0, 35; 60, 0; 0, -20]
       DstBlock		      "Switch4"
       DstPort		      3
     }
@@ -1401,6 +1497,65 @@ Model {
       Points		      [0, -75; -20, 0]
       DstBlock		      "Error Rate\nCalculation"
       DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant5"
+      SrcPort		      1
+      DstBlock		      "Switch5"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "General Block\nInterleaver"
+      SrcPort		      1
+      Points		      [20, 0; 0, 35; 65, 0]
+      DstBlock		      "Switch5"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Switch5"
+      SrcPort		      1
+      Points		      [0, 75; -370, 0; 0, 30]
+      Branch {
+	DstBlock		"DBPSK\nModulator\nBaseband"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"BPSK\nModulator\nBaseband"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Constant6"
+      SrcPort		      1
+      Points		      [5, 0; 0, 5]
+      DstBlock		      "not"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "not"
+      SrcPort		      1
+      DstBlock		      "Switch6"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "General Block\nDeinterleaver"
+      SrcPort		      1
+      Points		      [30, 0; 0, -5; 110, 0]
+      DstBlock		      "Switch6"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Switch6"
+      SrcPort		      1
+      Points		      [0, -60; -315, 0; 0, -50]
+      Branch {
+	DstBlock		"Viterbi Decoder"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"Viterbi Decoder1"
+	DstPort			1
+      }
     }
   }
 }
