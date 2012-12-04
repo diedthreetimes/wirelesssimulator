@@ -1127,7 +1127,7 @@ Model {
       Name		      "Viterbi Decoder"
       SID		      "9"
       Ports		      [1, 1]
-      Position		      [670, 202, 760, 258]
+      Position		      [665, 202, 755, 258]
       LibraryVersion	      "1.210"
       SourceBlock	      "commcnvcod2/Viterbi Decoder"
       SourceType	      "Viterbi Decoder"
@@ -1366,6 +1366,7 @@ Model {
       SrcPort		      1
       Points		      [0, -40; -100, 0; 0, -20]
       Branch {
+	Points			[0, -35]
 	DstBlock		"Viterbi Decoder"
 	DstPort			1
       }
@@ -1385,7 +1386,7 @@ Model {
     Line {
       SrcBlock		      "Viterbi Decoder"
       SrcPort		      1
-      Points		      [20, 0; 0, 35; 60, 0; 0, -20]
+      Points		      [25, 0; 0, 35; 60, 0; 0, -20]
       DstBlock		      "Switch4"
       DstPort		      3
     }

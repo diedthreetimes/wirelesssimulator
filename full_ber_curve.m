@@ -3,7 +3,7 @@ function [ ebnos, bers ] = full_ber_curve( code, ray, dbpsk)
 %   Will run the simulation until 1e-5 error rate is achieved
 %   link_layer_simulator must be opened
 
-global trellis use_rayleigh use_dbpsk m ebno;
+global trellis use_rayleigh use_dbpsk m ebno no_csi use_soft;
 
 if nargin < 2
     use_rayleigh = 0;
@@ -14,7 +14,7 @@ if nargin < 3
     use_dbpsk = 0;
 else
     use_dbpsk = dbpsk
-end
+end  
 
 m = floor(log2(max(code)))+1;
 
