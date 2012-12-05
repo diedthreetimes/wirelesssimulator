@@ -11,7 +11,7 @@ Model {
       Name		      "Out1"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.126"
+    ComputedModelVersion    "1.256"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -42,9 +42,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "skyf"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Dec  3 23:15:27 2012"
-  RTWModifiedTimeStamp	  276469672
-  ModelVersionFormat	  "1.%<AutoIncrement:126>"
+  LastModifiedDate	  "Wed Dec  5 02:32:13 2012"
+  RTWModifiedTimeStamp	  276548436
+  ModelVersionFormat	  "1.%<AutoIncrement:256>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -81,6 +81,7 @@ Model {
     $ObjectID		    2
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "simulate"
+    signals_		    []
     overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
@@ -692,7 +693,7 @@ Model {
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition     [ 480, 40, 1440, 895 ] 
+      ConfigPrmDlgPosition     [ 448, 24, 1472, 1059 ] 
     }
     PropName		    "ConfigurationSets"
   }
@@ -757,6 +758,21 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParamMin		      "[]"
+      ParamMax		      "[]"
+      ParamDataTypeStr	      "Inherit: Same as input"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Logic
       Operator		      "AND"
       Inputs		      "2"
@@ -815,7 +831,7 @@ Model {
   }
   System {
     Name		    "link_layer_simulator"
-    Location		    [541, 178, 1919, 986]
+    Location		    [26, 164, 1404, 972]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -829,13 +845,13 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "48"
+    SIDHighWatermark	    "69"
     Block {
       BlockType		      Reference
       Name		      "AWGN\nChannel"
       SID		      "16"
       Ports		      [1, 1]
-      Position		      [175, 596, 270, 654]
+      Position		      [170, 596, 265, 654]
       LibraryVersion	      "1.465"
       UserDataPersistent      on
       UserData		      "DataTag0"
@@ -851,19 +867,36 @@ Model {
       RTWMemSecDataParameters "Inherit from model"
       GeneratePreprocessorConditionals off
       InputProcessing	      "Columns as channels (frame based)"
-      seed		      "8263"
+      seed		      "rand_seed"
       noiseMode		      "Signal to noise ratio  (Eb/No)"
       EbNodB		      "ebno"
       EsNodB		      "10"
       SNRdB		      "10"
-      bitsPerSym	      "m"
+      bitsPerSym	      "n"
       Ps		      "1"
-      Tsym		      "1"
+      Tsym		      ".001"
       variance		      "1"
     }
     Block {
       BlockType		      Reference
-      Name		      "BPSK\nDemodulator\nBaseband"
+      Name		      "BPSK\nDemodulator\nHard Decision"
+      SID		      "67"
+      Ports		      [1, 1]
+      Position		      [935, 615, 1010, 665]
+      LibraryVersion	      "1.548"
+      SourceBlock	      "commdigbbndpm3/BPSK\nDemodulator\nBaseband"
+      SourceType	      "BPSK Demodulator Baseband"
+      Ph		      "0"
+      DecType		      "Log-likelihood ratio"
+      VarSource		      "Dialog"
+      Variance		      "1"
+      outDtype		      "uint32"
+      derotateFactorDTMode    "Same word length as input"
+      derotateFactorWordLen   "16"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "BPSK\nDemodulator\nSoft Decision"
       SID		      "29"
       Ports		      [1, 1]
       Position		      [780, 520, 855, 570]
@@ -871,10 +904,10 @@ Model {
       SourceBlock	      "commdigbbndpm3/BPSK\nDemodulator\nBaseband"
       SourceType	      "BPSK Demodulator Baseband"
       Ph		      "0"
-      DecType		      "Hard decision"
+      DecType		      "Log-likelihood ratio"
       VarSource		      "Dialog"
       Variance		      "1"
-      outDtype		      "Inherit via internal rule"
+      outDtype		      "uint32"
       derotateFactorDTMode    "Same word length as input"
       derotateFactorWordLen   "16"
     }
@@ -924,7 +957,7 @@ Model {
       GeneratePreprocessorConditionals off
       P			      "0.5"
       seed		      "61"
-      Ts		      ".01"
+      Ts		      "0.001"
       frameBased	      on
       sampPerFrame	      "1000"
       orient		      off
@@ -987,6 +1020,13 @@ Model {
       SID		      "45"
       Position		      [790, 325, 820, 355]
       Value		      "no_interleave"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant7"
+      SID		      "68"
+      Position		      [905, 545, 935, 575]
+      Value		      "use_soft"
     }
     Block {
       BlockType		      Reference
@@ -1096,6 +1136,16 @@ Model {
       Lockdown		      off
     }
     Block {
+      BlockType		      Gain
+      Name		      "Gain"
+      SID		      "66"
+      Position		      [460, 140, 490, 170]
+      Gain		      "-1"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
       BlockType		      Reference
       Name		      "General Block\nDeinterleaver"
       SID		      "11"
@@ -1104,7 +1154,7 @@ Model {
       LibraryVersion	      "1.61"
       SourceBlock	      "commblkintrlv2/General Block\nDeinterleaver"
       SourceType	      "General Block Deinterleaver"
-      elements		      "[2000:-1:1].'"
+      elements		      "[n*1000:-1:1].'"
     }
     Block {
       BlockType		      Reference
@@ -1115,7 +1165,29 @@ Model {
       LibraryVersion	      "1.61"
       SourceBlock	      "commblkintrlv2/General Block\nInterleaver"
       SourceType	      "General Block Interleaver"
-      elements		      "[2000:-1:1].'"
+      elements		      "[n*1000:-1:1].'"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Hard Decoder"
+      SID		      "9"
+      Ports		      [1, 1]
+      Position		      [665, 202, 755, 258]
+      LibraryVersion	      "1.210"
+      SourceBlock	      "commcnvcod2/Viterbi Decoder"
+      SourceType	      "Viterbi Decoder"
+      trellis		      "trellis"
+      isPunctured	      off
+      punctureVector	      "[1; 1; 0; 1; 0; 1]"
+      erasures		      off
+      dectype		      "Hard decision"
+      runSigValErrCheck	      off
+      nsdecb		      "2"
+      smWordLength	      "16"
+      tbdepth		      "39"
+      opmode		      "Truncated"
+      reset		      off
+      outDataType	      "boolean"
     }
     Block {
       BlockType		      Reference
@@ -1135,7 +1207,7 @@ Model {
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
       GeneratePreprocessorConditionals off
-      maxDopplerShift	      "15"
+      maxDopplerShift	      "doppler_shift"
       spectrumType	      "Jakes"
       sigmaGaussian	      "1/sqrt(2)"
       coeffRounded	      "[1 -1.72 0.785]"
@@ -1152,11 +1224,46 @@ Model {
       pathDelays	      "2e-6"
       avgPathGaindB	      "0"
       normalizePathGains      on
-      seed		      "73"
+      seed		      "rand_seed"
       enableProbe	      "0"
       openVisAtStart	      off
       outPathGains	      on
       outDelay		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Quantizer"
+      SID		      "52"
+      Ports		      [1, 1]
+      Position		      [525, 134, 595, 176]
+      LibraryVersion	      "1.367"
+      SourceBlock	      "dspquant2/Uniform\nEncoder"
+      SourceType	      "Uniform Encoder"
+      peak		      "3"
+      bits		      "3"
+      otype		      "Unsigned integer"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Soft Decoder"
+      SID		      "41"
+      Ports		      [1, 1]
+      Position		      [665, 127, 755, 183]
+      LibraryVersion	      "1.210"
+      SourceBlock	      "commcnvcod2/Viterbi Decoder"
+      SourceType	      "Viterbi Decoder"
+      trellis		      "trellis"
+      isPunctured	      off
+      punctureVector	      "[1; 1; 0; 1; 0; 1]"
+      erasures		      off
+      dectype		      "Soft decision"
+      runSigValErrCheck	      on
+      nsdecb		      "3"
+      smWordLength	      "16"
+      tbdepth		      "39"
+      opmode		      "Truncated"
+      reset		      off
+      outDataType	      "boolean"
     }
     Block {
       BlockType		      Switch
@@ -1222,48 +1329,13 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
-      BlockType		      Reference
-      Name		      "Viterbi Decoder"
-      SID		      "9"
-      Ports		      [1, 1]
-      Position		      [665, 202, 755, 258]
-      LibraryVersion	      "1.210"
-      SourceBlock	      "commcnvcod2/Viterbi Decoder"
-      SourceType	      "Viterbi Decoder"
-      trellis		      "trellis"
-      isPunctured	      off
-      punctureVector	      "[1; 1; 0; 1; 0; 1]"
-      erasures		      off
-      dectype		      "Hard decision"
-      runSigValErrCheck	      off
-      nsdecb		      "2"
-      smWordLength	      "16"
-      tbdepth		      "39"
-      opmode		      "Truncated"
-      reset		      off
-      outDataType	      "boolean"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Viterbi Decoder1"
-      SID		      "41"
-      Ports		      [1, 1]
-      Position		      [665, 127, 755, 183]
-      LibraryVersion	      "1.210"
-      SourceBlock	      "commcnvcod2/Viterbi Decoder"
-      SourceType	      "Viterbi Decoder"
-      trellis		      "trellis"
-      isPunctured	      off
-      punctureVector	      "[1; 1; 0; 1; 0; 1]"
-      erasures		      off
-      dectype		      "Soft decision"
-      runSigValErrCheck	      off
-      nsdecb		      "2"
-      smWordLength	      "16"
-      tbdepth		      "39"
-      opmode		      "Truncated"
-      reset		      off
-      outDataType	      "boolean"
+      BlockType		      Switch
+      Name		      "Switch7"
+      SID		      "69"
+      Position		      [960, 540, 1010, 580]
+      Threshold		      "0.5"
+      InputSameDT	      off
+      SaturateOnIntegerOverflow	off
     }
     Block {
       BlockType		      Logic
@@ -1315,7 +1387,7 @@ Model {
       Labels		      [0, 0]
       SrcBlock		      "AWGN\nChannel"
       SrcPort		      1
-      Points		      [25, 0]
+      Points		      [30, 0]
       Branch {
 	Points			[0, 160; 270, 0]
 	DstBlock		"Switch"
@@ -1377,7 +1449,7 @@ Model {
     Line {
       SrcBlock		      "Switch1"
       SrcPort		      1
-      Points		      [0, 95; -175, 0]
+      Points		      [0, 95; -180, 0]
       DstBlock		      "AWGN\nChannel"
       DstPort		      1
     }
@@ -1393,13 +1465,6 @@ Model {
       Points		      [70, 0]
       DstBlock		      "Switch2"
       DstPort		      1
-    }
-    Line {
-      SrcBlock		      "BPSK\nDemodulator\nBaseband"
-      SrcPort		      1
-      Points		      [70, 0]
-      DstBlock		      "Switch2"
-      DstPort		      3
     }
     Line {
       SrcBlock		      "Switch2"
@@ -1418,15 +1483,23 @@ Model {
     Line {
       SrcBlock		      "Switch"
       SrcPort		      1
-      Points		      [205, 0; 0, -100; -85, 0]
+      Points		      [205, 0; 0, -70]
       Branch {
-	Points			[-35, 0; 0, -170]
-	DstBlock		"DBPSK\nDemodulator\nBaseband"
-	DstPort			1
+	Points			[0, -30; -85, 0]
+	Branch {
+	  Points		  [-35, 0; 0, -170]
+	  DstBlock		  "DBPSK\nDemodulator\nBaseband"
+	  DstPort		  1
+	}
+	Branch {
+	  Points		  [0, -70]
+	  DstBlock		  "BPSK\nDemodulator\nSoft Decision"
+	  DstPort		  1
+	}
       }
       Branch {
-	Points			[0, -70]
-	DstBlock		"BPSK\nDemodulator\nBaseband"
+	Points			[0, -5]
+	DstBlock		"BPSK\nDemodulator\nHard Decision"
 	DstPort			1
       }
     }
@@ -1472,14 +1545,14 @@ Model {
       DstPort		      3
     }
     Line {
-      SrcBlock		      "Viterbi Decoder1"
+      SrcBlock		      "Soft Decoder"
       SrcPort		      1
       Points		      [80, 0]
       DstBlock		      "Switch4"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Viterbi Decoder"
+      SrcBlock		      "Hard Decoder"
       SrcPort		      1
       Points		      [25, 0; 0, 35; 60, 0; 0, -20]
       DstBlock		      "Switch4"
@@ -1527,7 +1600,6 @@ Model {
     Line {
       SrcBlock		      "Constant6"
       SrcPort		      1
-      Points		      [5, 0; 0, 5]
       DstBlock		      "not"
       DstPort		      1
     }
@@ -1547,15 +1619,55 @@ Model {
     Line {
       SrcBlock		      "Switch6"
       SrcPort		      1
-      Points		      [0, -60; -315, 0; 0, -50]
+      Points		      [0, -60; -315, 0; 0, -20]
       Branch {
-	DstBlock		"Viterbi Decoder"
+	DstBlock		"Hard Decoder"
 	DstPort			1
       }
       Branch {
-	DstBlock		"Viterbi Decoder1"
+	Points			[-205, 0]
+	DstBlock		"Gain"
 	DstPort			1
       }
+    }
+    Line {
+      SrcBlock		      "Gain"
+      SrcPort		      1
+      DstBlock		      "Quantizer"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Quantizer"
+      SrcPort		      1
+      DstBlock		      "Soft Decoder"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "BPSK\nDemodulator\nSoft Decision"
+      SrcPort		      1
+      Points		      [40, 0; 0, -5; 45, 0]
+      DstBlock		      "Switch7"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "BPSK\nDemodulator\nHard Decision"
+      SrcPort		      1
+      Points		      [0, -40; -65, 0; 0, -25]
+      DstBlock		      "Switch7"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Switch7"
+      SrcPort		      1
+      Points		      [0, -35; -85, 0]
+      DstBlock		      "Switch2"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Constant7"
+      SrcPort		      1
+      DstBlock		      "Switch7"
+      DstPort		      2
     }
   }
 }
