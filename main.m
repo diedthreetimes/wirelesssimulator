@@ -18,7 +18,7 @@ else
     doppler_shift = 100;
 end
 
-command = 1;
+command = 2;
 
 
 % Do Search

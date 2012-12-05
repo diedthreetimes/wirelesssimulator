@@ -17,20 +17,20 @@ ebnos = [];
 bers = [];
 ebno = 0;
 ber = 1;
-max_ebno = 100;
+max_ebno = 10;
 
 trellis = poly2trellis(m, code);
 
 detailed = 1;
 if detailed
-    ebno = 28;
-    max_ebno = 32;
+    ebno = 1;
+    max_ebno = 10;
 end
 
 while (detailed || ber > 1e-5) && ebno <= max_ebno    
     [t,x,y] = sim('link_layer_simulator');
     
-    ber = y(1);
+    %ber = y(1);
     bers = [bers ber];
     ebnos = [ebnos ebno];
     
@@ -42,7 +42,7 @@ while (detailed || ber > 1e-5) && ebno <= max_ebno
     % Matlab can't plot it since it's on a
     % log scale.
     if detailed
-        ebno = ebno + 0.25;
+        ebno = ebno + 1;
     else
         if ber < 5e-3
             ebno = ebno + 0.3;
@@ -55,6 +55,7 @@ while (detailed || ber > 1e-5) && ebno <= max_ebno
         end
     end
 end
+
 
 
 semilogy(ebnos,bers,'-.or'); %hold on;
