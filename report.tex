@@ -1,0 +1,76 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+
+%opening
+\title{CS 236 Wireless Networking Project}
+\author{Kyle Benson (ID\# 29043366) \& Sky Faber (ID\# 37521646)}
+
+\begin{document}
+
+\maketitle
+
+\newcommand{\ebno}{$\frac{E_b}{N_0}$}
+\newcommand{\ber}{$10^{-3}$}
+
+\section{Simulator Features}
+
+Our simulation features an easily configurable main program for defining which simulation parameters are used.
+For example, we have the following selectable channel components:
+
+\begin{itemize}
+ \item Hard vs. soft decision decoding
+ \item Channel State Information
+  \item Rayleigh fading channel
+  \item Block interleaving
+  \item Low vs. high mobility
+  \item DBPSK vs. BPSK
+\end{itemize}
+
+We wrote a simple shell script for running the simulator, which will use the parameters defined in the main function as described above.
+This will generate all possible codes for the given values, run the simulation on varying values of \ebno, and plot the bit error rate (BER) for each of these codes.
+The values of \ebno are increased until the target BER is found.
+As the BER approaches this target value (\ber), the amount by which \ebno is incremented will also decrease to avoid skipping over the target BER and reaching 0, which is especially problematic as Matlab will not plot any values of 0 on a log scale axis.
+Then, the user can view each plot side-by-side and visually determine the best result.
+
+We also implemented a semi-automated search feature that finds the best codes by comparing the \ebno values of each around a BER of \ber.
+It plots only the top $x$ choices, where $x$ is a user-configurable parameter.
+This is especially helpful when examining all of the codes for larger values of M, where the combinatorial nature of the problem makes it impossible for a human to compare all of the possibilities visually.
+
+
+\section{Implementation}
+
+To implement the simulator, we made a \emph{main} file in which we defined several global variables for choosing the simulation parameters.
+We also included a section in main to vary all of these parameters for each of the different configurations requested in the project description so that we could run all of them at once and view the results later.
+We used Matlab's Communications Systems Toolbox for defining the core components of the simulation and connecting them together.
+The parameters defined in the main file control which of the components are used, such as choosing whether to pass the data from the AWGN channel to the Rayleigh fading channel, or bypassing it and going straight to whicever demodulator was selected.
+
+
+
+\section{Design Decisions}
+
+We opted to put all of the configuration parameters in a main Matlab script because it easily worked as a configuration file for quickly modifying simulation parameters without having to define a separate file format and parsing it within Matlab.
+When plotting graphs, we decided to plot each graph in separate windows to allow us to save only the ones we wanted instead of putting them all in subplots
+
+For the Rayleigh fading channel, we chose a delay parameter of XXXXXXX
+
+For the Bernoulli random generator, we picked a sampling time of 0.001 seconds because any higher of a value was not compatible with the high-speed doppler shift of the Rayleigh fading channel.
+We think that the larger sampling times may be setting the frequency of the channel so low that the doppler shift is causing negative frequencies, hence the simulator crashing.
+
+For the number of soft decision bits, we chose 2
+
+For the memory registers $M$, we assumed $M$ to be the number of bits used to generate the polynomials.
+That is, each polynomial will be $\lt 2^M$ and so the number of \emph{lookback bits} will be $M-1$.
+We spent significant time researching this point only to find that the literature is completely inconsistent.
+An alternate definition, which we decided to ignore, is that the number of \emph{memory registers} could actually be $M-1$ in an optimized build as the input bit wouldn't need to be stored in the register until all the registers were clocked.
+
+total number of bits in sim
+
+\section{Discussion}
+
+In this section, we present the results and discussion for each of the problems outlined 
+
+
+
+%\section{Additional Features}
+%BPSK vs DBPSK
+\end{document}
