@@ -23,7 +23,7 @@ trellis = poly2trellis(m, code);
 
 detailed = 1;
 if detailed
-    ebno = 1;
+    ebno = 0;
     max_ebno = 10;
 end
 

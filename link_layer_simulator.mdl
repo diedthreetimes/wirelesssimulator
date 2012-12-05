@@ -4,14 +4,9 @@ Model {
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
-    NumRootOutports	    1
-    Outport {
-      BusObject		      ""
-      BusOutputAsStruct	      "off"
-      Name		      "Out1"
-    }
+    NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.270"
+    ComputedModelVersion    "1.271"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -42,9 +37,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "skyf"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec  5 03:14:10 2012"
+  LastModifiedDate	  "Wed Dec  5 03:41:23 2012"
   RTWModifiedTimeStamp	  276548436
-  ModelVersionFormat	  "1.%<AutoIncrement:270>"
+  ModelVersionFormat	  "1.%<AutoIncrement:271>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -788,23 +783,6 @@ Model {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      Outport
-      Port		      "1"
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeStr	      "Inherit: auto"
-      LockScale		      off
-      BusOutputAsStruct	      off
-      PortDimensions	      "-1"
-      VarSizeSig	      "Inherit"
-      SampleTime	      "-1"
-      SignalType	      "auto"
-      SamplingMode	      "auto"
-      SourceOfInitialOutputValue "Dialog"
-      OutputWhenDisabled      "held"
-      InitialOutput	      "[]"
-    }
-    Block {
       BlockType		      Product
       Inputs		      "2"
       Multiplication	      "Element-wise(.*)"
@@ -834,6 +812,15 @@ Model {
       SampleTime	      "-1"
       AllowDiffInputSizes     off
     }
+    Block {
+      BlockType		      ToWorkspace
+      VariableName	      "simulink_output"
+      MaxDataPoints	      "1000"
+      Decimation	      "1"
+      SampleTime	      "0"
+      FixptAsFi		      off
+      NumInputs		      "1"
+    }
   }
   System {
     Name		    "link_layer_simulator"
@@ -851,7 +838,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "77"
+    SIDHighWatermark	    "78"
     Block {
       BlockType		      Reference
       Name		      "AWGN\nChannel"
@@ -1034,13 +1021,6 @@ Model {
       SID		      "68"
       Position		      [905, 545, 935, 575]
       Value		      "use_soft"
-    }
-    Block {
-      BlockType		      Constant
-      Name		      "Constant8"
-      SID		      "77"
-      Position		      [1075, 180, 1105, 210]
-      Value		      "eps"
     }
     Block {
       BlockType		      Reference
@@ -1371,6 +1351,17 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
+      BlockType		      ToWorkspace
+      Name		      "To Workspace"
+      SID		      "78"
+      Ports		      [1]
+      Position		      [1180, 240, 1240, 270]
+      VariableName	      "ber"
+      MaxDataPoints	      "1"
+      SampleTime	      "-1"
+      SaveFormat	      "Array"
+    }
+    Block {
       BlockType		      Constant
       Name		      "ebno"
       SID		      "73"
@@ -1395,13 +1386,6 @@ Model {
       Operator		      "NOT"
       AllPortsSameDT	      off
       OutDataTypeStr	      "boolean"
-    }
-    Block {
-      BlockType		      Outport
-      Name		      "Out1"
-      SID		      "75"
-      Position		      [1145, 228, 1175, 242]
-      IconDisplay	      "Port number"
     }
     Line {
       SrcBlock		      "Bernoulli Binary\nGenerator"
@@ -1725,16 +1709,17 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Constant8"
+      SrcBlock		      "Demux"
       SrcPort		      1
-      Points		      [15, 0]
+      Points		      [20, 0]
       Branch {
+	Points			[0, -40]
 	DstBlock		"Display"
 	DstPort			1
       }
       Branch {
-	Points			[0, 40]
-	DstBlock		"Out1"
+	Points			[55, 0]
+	DstBlock		"To Workspace"
 	DstPort			1
       }
     }
