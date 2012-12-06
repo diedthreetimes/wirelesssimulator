@@ -1,5 +1,6 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
 
 %opening
 \title{CS 236 Wireless Networking Project}
@@ -44,6 +45,12 @@ We also included a section in main to vary all of these parameters for each of t
 We used Matlab's Communications Systems Toolbox for defining the core components of the simulation and connecting them together.
 The parameters defined in the main file control which of the components are used, such as choosing whether to pass the data from the AWGN channel to the Rayleigh fading channel, or bypassing it and going straight to whicever demodulator was selected.
 
+In addition to the \emph{main} file and the Communications Systems Toolbox functions, we wrote the following functions ourself:
+\begin{itemize}
+ \item \emph{plot\_ber\_curve}: for a range of \ebno values, runs the simulator for each and plots the resulting BER values
+  \item \emph{all\_codes}: enumerates all the possible codes for a given set of parameters
+  \item \emph{valid\_trellis}: determines whether the given code (pulled from the \emph{all\_codes} output) is a valid trellis code
+\end{itemize}
 
 
 \section{Design Decisions}
@@ -51,24 +58,28 @@ The parameters defined in the main file control which of the components are used
 We opted to put all of the configuration parameters in a main Matlab script because it easily worked as a configuration file for quickly modifying simulation parameters without having to define a separate file format and parsing it within Matlab.
 When plotting graphs, we decided to plot each graph in separate windows to allow us to save only the ones we wanted instead of putting them all in subplots
 
-For the Rayleigh fading channel, we chose a delay parameter of XXXXXXX
+% For the Rayleigh fading channel, we chose a delay parameter of XXXXXXX
 
 For the Bernoulli random generator, we picked a sampling time of 0.001 seconds because any higher of a value was not compatible with the high-speed doppler shift of the Rayleigh fading channel.
 We think that the larger sampling times may be setting the frequency of the channel so low that the doppler shift is causing negative frequencies, hence the simulator crashing.
 
-For the number of soft decision bits, we chose 2
+% For the number of soft decision bits, we chose 3 because 
 
 For the memory registers $M$, we assumed $M$ to be the number of bits used to generate the polynomials.
-That is, each polynomial will be $\lt 2^M$ and so the number of \emph{lookback bits} will be $M-1$.
+That is, each polynomial will be $< 2^M$ and so the number of \emph{lookback bits} will be $M-1$.
 We spent significant time researching this point only to find that the literature is completely inconsistent.
 An alternate definition, which we decided to ignore, is that the number of \emph{memory registers} could actually be $M-1$ in an optimized build as the input bit wouldn't need to be stored in the register until all the registers were clocked.
 
-total number of bits in sim
+For the total number of bits in each simulator run, $K$, we opted for $5e-6$, which corresponds to 5000 frames.
+We chose this number because it gave us a decent sensitivity near the BER of $10^{-5}$, due to being an order of magnitude higher, and quite good sensitivity near our target BER of \ber.
+
 
 \section{Discussion}
 
-In this section, we present the results and discussion for each of the problems outlined 
+In this section, we present the results and discussion for each of the problems outlined in the project description.
 
+% m=3, n=3
+%best_per = 5 6 7
 
 
 %\section{Additional Features}
