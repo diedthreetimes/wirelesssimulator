@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.271"
+    ComputedModelVersion    "1.276"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -37,9 +37,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "skyf"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec  5 03:41:23 2012"
-  RTWModifiedTimeStamp	  276548436
-  ModelVersionFormat	  "1.%<AutoIncrement:271>"
+  LastModifiedDate	  "Thu Dec  6 01:10:22 2012"
+  RTWModifiedTimeStamp	  276656618
+  ModelVersionFormat	  "1.%<AutoIncrement:276>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -76,7 +76,6 @@ Model {
     $ObjectID		    2
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "simulate"
-    signals_		    []
     overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
@@ -142,7 +141,7 @@ Model {
 	  $ObjectID		  4
 	  Version		  "1.11.0"
 	  StartTime		  "0.0"
-	  StopTime		  "5000.0"
+	  StopTime		  "1000.0"
 	  AbsTol		  "auto"
 	  FixedStep		  "auto"
 	  InitialStep		  "auto"
@@ -159,8 +158,8 @@ Model {
 	  RelTol		  "1e-3"
 	  SolverMode		  "Auto"
 	  ConcurrentTasks	  off
-	  Solver		  "ode45"
-	  SolverName		  "ode45"
+	  Solver		  "VariableStepDiscrete"
+	  SolverName		  "VariableStepDiscrete"
 	  SolverJacobianMethodControl "auto"
 	  ShapePreserveControl	  "DisableAll"
 	  ZeroCrossControl	  "UseLocalSettings"
@@ -185,7 +184,7 @@ Model {
 	  LoadInitialState	  off
 	  SaveFinalState	  off
 	  SaveCompleteFinalSimState off
-	  SaveFormat		  "Array"
+	  SaveFormat		  "Structure"
 	  SignalLoggingSaveFormat "ModelDataLogs"
 	  SaveOutput		  on
 	  SaveState		  off
@@ -688,7 +687,7 @@ Model {
       }
       Name		      "Configuration"
       CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition     [ 312, 143, 1608, 908 ] 
+      ConfigPrmDlgPosition     [ 280, 24, 1640, 969 ] 
     }
     PropName		    "ConfigurationSets"
   }
@@ -813,6 +812,9 @@ Model {
       AllowDiffInputSizes     off
     }
     Block {
+      BlockType		      Terminator
+    }
+    Block {
       BlockType		      ToWorkspace
       VariableName	      "simulink_output"
       MaxDataPoints	      "1000"
@@ -824,7 +826,7 @@ Model {
   }
   System {
     Name		    "link_layer_simulator"
-    Location		    [495, 313, 1873, 1121]
+    Location		    [495, 271, 1873, 1079]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -838,7 +840,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "78"
+    SIDHighWatermark	    "82"
     Block {
       BlockType		      Reference
       Name		      "AWGN\nChannel"
@@ -869,6 +871,12 @@ Model {
       Ps		      "1"
       Tsym		      ".001"
       variance		      "1"
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Arnie"
+      SID		      "82"
+      Position		      [1170, 613, 1310, 737]
     }
     Block {
       BlockType		      Reference
@@ -1097,15 +1105,6 @@ Model {
       Name		      "Digital Clock"
       SID		      "12"
       Position		      [525, 28, 590, 52]
-    }
-    Block {
-      BlockType		      Display
-      Name		      "Display"
-      SID		      "76"
-      Ports		      [1]
-      Position		      [1155, 180, 1245, 210]
-      Decimation	      "1"
-      Lockdown		      off
     }
     Block {
       BlockType		      Product
@@ -1349,6 +1348,12 @@ Model {
       Threshold		      "0.5"
       InputSameDT	      off
       SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Terminator
+      Name		      "Terminator"
+      SID		      "81"
+      Position		      [1255, 540, 1275, 560]
     }
     Block {
       BlockType		      ToWorkspace
@@ -1711,17 +1716,23 @@ Model {
     Line {
       SrcBlock		      "Demux"
       SrcPort		      1
-      Points		      [20, 0]
-      Branch {
-	Points			[0, -40]
-	DstBlock		"Display"
-	DstPort			1
-      }
-      Branch {
-	Points			[55, 0]
-	DstBlock		"To Workspace"
-	DstPort			1
-      }
+      Points		      [75, 0]
+      DstBlock		      "To Workspace"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      3
+      Points		      [50, 0; 0, 300; 100, 0]
+      DstBlock		      "Terminator"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux"
+      SrcPort		      2
+      Points		      [50, 0; 0, 415; 15, 0]
+      DstBlock		      "Arnie"
+      DstPort		      1
     }
   }
 }

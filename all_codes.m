@@ -14,6 +14,4 @@ function [ per ] = all_codes( m, n )
         per = [per; combs(i,:)];
         %per = [per; perms(combs(i,:))];
     end
-
 end
-

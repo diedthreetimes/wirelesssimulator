@@ -8,11 +8,11 @@ global trellis use_rayleigh use_dbpsk m ebno no_csi use_soft no_interleave rand_
 if nargin < 2
     use_rayleigh = 0;
 else
-    use_rayleigh = ray
+    use_rayleigh = ray;
 end  
 
 if nargin < 4
-    marker = '-.or'
+    marker = '-.or';
 end
 
 m = floor(log2(max(code)))+1;
@@ -21,11 +21,11 @@ ebnos = [];
 bers = [];
 ebno = 0;
 ber = 1;
-max_ebno = 10;
+max_ebno = 20;
 
-trellis = poly2trellis(m, code);
+trellis = poly2trellis(m, dec2base(code,8));
 
-detailed = 1;
+detailed = 0;
 if detailed
     ebno = 0;
     max_ebno = 10;
@@ -44,19 +44,9 @@ while (detailed || ber > 1e-5) && ebno <= max_ebno
     % values or we will hit ber=0 and then
     % Matlab can't plot it since it's on a
     % log scale.
-    if detailed
-        ebno = ebno + 1;
-    else
-        if ber < 5e-3
-            ebno = ebno + 0.3;
-        elseif ber < 1e-2
-            ebno = ebno + 0.5;
-        elseif ber < 1e-1
-            ebno = ebno + 1;
-        else
-            ebno = ebno + 5;
-        end
-    end
+    
+    ebno = ebno + 1;
+    
 end
 
 

@@ -18,20 +18,86 @@ else
     doppler_shift = 100;
 end
 
-command = 2;
+command = 1;
 
 
-% Do Search
+%% Do Search
 if command == 1
-    per = all_codes(m, n);
+    ms = [3; 4; 8]
+    ns = [2; 3]
+    for k = 1:length(ms)
+        m = ms(k)
+        for p = 1:length(ns)
+            n = ns(p)
+            per = all_codes(m, n);
 
+            num_best = min(3,length(per));
     
-    %for i = 1:length(per)
-        figure
-        %[ebnos, bers] = full_ber_curve( per(i,:) )
-        [ebnos, bers] = full_ber_curve( [5 7] )
-    %end
-% Problem 4
+            min_ebno = ones(num_best,1).'*999;
+            min_ber = ones(num_best,1).'*0.5;
+            best_per = ones(num_best,n)*-1;
+    
+            figure; hold off;
+            for i = 1:length(per)
+                [ebnos, bers] = full_ber_curve( per(i,:) );
+        
+                target_ebno = 999;
+                target_ber = 1;
+                for j=1:length(ebnos)
+                    if target_ebno == 999 && bers(j) < 1e-3
+                        target_ebno = ebnos(j);
+                        target_ber = bers(j);
+                    end    
+                end
+        
+                % Find the worst of our saved best codes (specified by index)
+                ind = find(min_ebno == max(min_ebno));
+                ind = find(min_ber == max(min_ber(ind)) ); % Handle ebno ties
+                ind = ind(1);
+        
+                % Ebno strictly less
+                if target_ebno < min_ebno(ind)
+                    min_ebno(ind) = target_ebno;
+                    min_ber(ind) = target_ber;
+                    best_per(ind,:) = per(i,:);         
+                % Ebno is just as good but ber is better
+                elseif target_ebno == max(min_ebno) && min_ber(ind) > target_ber
+                    min_ebno(ind) = target_ebno;
+                    min_ber(ind) = target_ber;
+                    best_per(ind,:) = per(i,:);
+                end
+            end
+    
+            figure;
+            labels = [];
+            mrks = ['-.or'; '-.xb'; '-.*g'; '-.^y'; '-.+k'];
+            for i=1:length(best_per)
+                % We found a decent code
+                if min_ebno(i) < 999
+                    [ebnos, bers] = full_ber_curve( best_per(i,:), 0, strcat('Comparison of codes for (',num2str(m),',',num2str(n),')'), mrks(i,:) );
+                    hold all;
+                end
+                labels = [labels; strcat('(', num2str(best_per(i,:)), ')')];
+            end
+            legend(labels);
+
+            mkdir('problem1/');
+            saveas(gcf, strcat('problem1/',num2str(m),'_',num2str(n)), 'fig');
+    
+            min_ebno
+            min_ber
+            best_per
+    
+            best_ind = find(min_ebno == min(min_ebno));
+            best_ind = find(min_ber == min(min_ber(best_ind)));
+            best_ind = best_ind(1)
+    
+            best_per(best_ind,:)
+            min_ebno(best_ind)
+            min_ber(best_ind)
+        end
+    end   
+%% Problem 4
 elseif command == 2
     code = [5 7];
     
