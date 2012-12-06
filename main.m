@@ -23,7 +23,7 @@ command = 1;
 
 %% Do Search
 if command == 1
-    ms = [3; 4; 8]
+    ms = [8]
     ns = [2; 3]
     for k = 1:length(ms)
         m = ms(k)
@@ -69,7 +69,7 @@ if command == 1
             end
     
             figure;
-            labels = [];
+            labels = {};
             mrks = ['-.or'; '-.xb'; '-.*g'; '-.^y'; '-.+k'];
             for i=1:length(best_per)
                 % We found a decent code
