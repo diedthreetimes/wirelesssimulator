@@ -1,4 +1,9 @@
 Bernoulli_grt_rtw/
 slprj/
+*~
 *.autosave
 *.original
+*.backup
+report.aux
+report.log
+report.pdf
