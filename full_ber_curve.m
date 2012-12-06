@@ -1,4 +1,4 @@
-function [ ebnos, bers ] = full_ber_curve( code, ray, tit)
+function [ ebnos, bers ] = full_ber_curve( code, ray, tit, marker)
 %FULL_BER_CURVE Calculate and plot BER Curve
 %   Will run the simulation until 1e-5 error rate is achieved
 %   link_layer_simulator must be opened
@@ -10,6 +10,10 @@ if nargin < 2
 else
     use_rayleigh = ray
 end  
+
+if nargin < 4
+    marker = '-.or'
+end
 
 m = floor(log2(max(code)))+1;
 
@@ -28,13 +32,12 @@ if detailed
 end
 
 while (detailed || ber > 1e-5) && ebno <= max_ebno    
+    rand_seed = randi(1000000,1);
     [t,x,y] = sim('link_layer_simulator');
     
     %ber = y(1);
     bers = [bers ber];
     ebnos = [ebnos ebno];
-    
-    rand_seed = randi(1000000,1);
     
     % As we approach the desired ber value,
     % we need to increment ebno by smaller
@@ -58,7 +61,8 @@ end
 
 
 
-semilogy(ebnos,bers,'-.or'); %hold on;
+
+h = semilogy(ebnos,bers,marker); %hold on;
 if(nargin < 3)
     title(['Performance for ' int2str(code)]);
 else
