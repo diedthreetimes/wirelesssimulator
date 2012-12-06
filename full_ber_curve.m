@@ -22,8 +22,7 @@ bers = [];
 ebno = 0;
 ber = 1;
 max_ebno = 20;
-
-trellis = poly2trellis(m, dec2base(code,8));
+trellis = poly2trellis(m, str2num(dec2base(code,8))');
 
 detailed = 0;
 if detailed
