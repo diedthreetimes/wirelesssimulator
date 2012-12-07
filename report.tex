@@ -1,6 +1,7 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath}
+\usepackage{outline}
+\usepackage{graphicx}
 
 %opening
 \title{CS 236 Wireless Networking Project}
@@ -12,6 +13,16 @@
 
 \newcommand{\ebno}{$\frac{E_b}{N_0}$}
 \newcommand{\ber}{$10^{-3}$}
+\newcommand{\circuit}[1]{
+
+\includegraphics[width=4.3in]{#1}}
+\newcommand{\graph}[1]{
+
+\vspace{-1.4in}
+
+  \includegraphics[width=4.3in]{#1}
+\vspace{-1.4in}
+}
 
 \section{Simulator Features}
 
@@ -70,14 +81,87 @@ That is, each polynomial will be $< 2^M$ and so the number of \emph{lookback bit
 We spent significant time researching this point only to find that the literature is completely inconsistent.
 An alternate definition, which we decided to ignore, is that the number of \emph{memory registers} could actually be $M-1$ in an optimized build as the input bit wouldn't need to be stored in the register until all the registers were clocked.
 
-For the total number of bits in each simulator run, $K$, we opted for $5e-6$, which corresponds to 5000 frames.
+For the total number of bits in each simulator run, $K$, we opted for $1e-6$, which corresponds to 5000 frames.
 We chose this number because it gave us a decent sensitivity near the BER of $10^{-5}$, due to being an order of magnitude higher, and quite good sensitivity near our target BER of \ber.
 
+We had to use DBPSK for a Rayleigh flat fading channel as otherwise the BER would never approach \ber for reasonable values of \ebno.
+We were able to use BPSK when we assumed only an AWGN channel, however.
 
 \section{Discussion}
 
 In this section, we present the results and discussion for each of the problems outlined in the project description.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% # 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Codes for R=1/2}
+
+\subsubsection{M=2}
+
+\begin{outline}
+  \item The best generator polynomial was (5,7).
+  \item Encoder schematic
+  \circuit{5_7_circuit_digram.png}
+
+  \item AWGN channel BER curve
+  \graph{problem1/2_2.pdf}
+
+  \item Low mobility Rayleigh flat fading channel BER curve (using DBPSK)
+  \graph{problem1/rayleigh/dbpsk/2_2.pdf}
+\end{outline}
+
+
+\subsubsection{M=3}
+
+\begin{outline}
+  \item Best generator polynomials
+  \item Encoder schematics
+  \item AWGN channel BER curve
+  \item Low mobility Rayleigh flat fading channel BER curve
+\end{outline}
+
+%%%%%%%%%%%%%%%%%%%%%%   #2   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Codes for R=1/3}
+
+\subsubsection{M=2}
+
+\begin{outline}
+  \item Best generator polynomials
+  \item Encoder schematics
+  \item AWGN channel BER curve
+  \item Low mobility Rayleigh flat fading channel BER curve
+\end{outline}
+
+
+\subsubsection{M=3}
+
+\begin{outline}
+  \item Best generator polynomials
+  \item Encoder schematics
+  \item AWGN channel BER curve
+  \item Low mobility Rayleigh flat fading channel BER curve
+\end{outline}
+
+
+\subsection{Performance Comparisons Part \# 1}
+
+\subsubsection{Differing values of M}
+
+\subsubsection{With and without fading}
+
+\subsubsection{R=1/2 vs. R=1/3}
+
+\subsubsection{Are the best encoders over AWGN channels also the best encoders over at fading
+channels?}
+
+
+\subsection{Performance Comparisons Part \# 2}
+
+\subsubsection{HDD vs. SDD over AWGN}
+
+\subsubsection{HDD with/without CSI and SDD with/without CSI over Rayleigh flat fading channel (low mobility)}
+
+\subsubsection{Interleaving vs. no interleaving over Rayleigh flat fading channel (low mobility and HDD)}
+
+\subsubsection{Low vs. high mobility over Rayleigh flat fading channel (HDD)}
 % m=3, n=3
 %best_per = 5 6 7
 
