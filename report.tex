@@ -70,12 +70,12 @@ In addition to the \emph{main} file and the Communications Systems Toolbox funct
 We opted to put all of the configuration parameters in a main Matlab script because it easily worked as a configuration file for quickly modifying simulation parameters without having to define a separate file format and parsing it within Matlab.
 When plotting graphs, we decided to plot each graph in separate windows to allow us to save only the ones we wanted instead of putting them all in subplots
 
-% For the Rayleigh fading channel, we chose a delay parameter of XXXXXXX
+For the Rayleigh fading channel, we chose a delay parameter of $2*10^{-6}$. This was the default value recommended by Matlab's Communications Toolbox.
 
 For the Bernoulli random generator, we picked a sampling time of 0.001 seconds because any higher of a value was not compatible with the high-speed doppler shift of the Rayleigh fading channel.
 We think that the larger sampling times may be setting the frequency of the channel so low that the doppler shift is causing negative frequencies, hence the simulator crashing.
 
-% For the number of soft decision bits, we chose 3 because 
+In order to perfom soft decision decoding, our BPSK modulator optionally outputs ``soft'' bits. This is done using log-likelihood estimation (provided by Matlab). For the number of soft decision bits, we chose 3 because this gave adequatuate BER results across configuration paramaters, without much added computational cost. For some paramaters, for instance without CSI, added decision bits did not improve the BER. 
 
 For the memory registers $M$, we assumed $M$ to be the number of bits used to generate the polynomials.
 That is, each polynomial will be $< 2^M$ and so the number of \emph{lookback bits} will be $M-1$.
@@ -85,8 +85,8 @@ An alternate definition, which we decided to ignore, is that the number of \emph
 For the total number of bits in each simulator run, $K$, we opted for $1e-6$, which corresponds to 5000 frames.
 We chose this number because it gave us a decent sensitivity near the BER of $10^{-5}$, due to being an order of magnitude higher, and quite good sensitivity near our target BER of \ber.
 
-We had to use DBPSK for a Rayleigh flat fading channel as otherwise the BER would never approach \ber for reasonable values of \ebno.
-We were able to use BPSK when we assumed only an AWGN channel, however.
+We had to use DBPSK for a Rayleigh flat fading channel without CSI as otherwise the BER would never approach \ber for reasonable values of \ebno.
+We were able to use BPSK when we assumed only an AWGN channel, however. BPSK is used unless otherwise mentioned.
 
 \section{Discussion}
 
@@ -120,21 +120,21 @@ In this section, we present the results and discussion for each of the problems 
   \item AWGN channel BER curve
   \graph{problem1/3_2.pdf}
 
-  \item Low mobility Rayleigh flat fading channel BER curve
+  \item Low mobility Rayleigh flat fading channel BER curve (using DBPSK)
   \graph{problem1/rayleigh/dbpsk/3_2.pdf}
 \end{outline}
 
 \subsubsection{M=4}
 
 \begin{outline}
-  \item Best generator polynomials are (13, 15).
+  \item Best generator polynomials are (13, 15), but only around BER=\ber
 
   \item We did not draw an encoder schematic for M=4 because it got pretty messy.
 
   \item AWGN channel BER curve
   \graph{problem1/4_2.pdf}
 
-  \item Low mobility Rayleigh flat fading channel BER curve
+  \item Low mobility Rayleigh flat fading channel BER curve (using DBPSK)
   \graph{problem1/rayleigh/dbpsk/4_2.pdf}
 \end{outline}
 
@@ -152,7 +152,7 @@ In this section, we present the results and discussion for each of the problems 
   \item AWGN channel BER curve
   \graph{problem1/2_3.pdf}
 
-  \item Low mobility Rayleigh flat fading channel BER curve
+  \item Low mobility Rayleigh flat fading channel BER curve (using DBPSK)
   \graph{problem1/rayleigh/dbpsk/2_3.pdf}
 \end{outline}
 
@@ -168,21 +168,21 @@ In this section, we present the results and discussion for each of the problems 
   \item AWGN channel BER curve
   \graph{problem1/3_3.pdf}
 
-  \item Low mobility Rayleigh flat fading channel BER curve
+  \item Low mobility Rayleigh flat fading channel BER curve (using DBPSK)
   \graph{problem1/rayleigh/dbpsk/3_3.pdf}
 \end{outline}
 
 \subsubsection{M=4}
 
 \begin{outline}
-  \item Best generator polynomial is (9, 11, 15)
+  \item Best generator polynomial is (9, 11, 15), but only for a BER=\ber
 
   \item We did not draw an encoder schematic because it got really messy.
 
   \item AWGN channel BER curve
   \graph{problem1/4_3.pdf}
 
-  \item Low mobility Rayleigh flat fading channel BER curve
+  \item Low mobility Rayleigh flat fading channel BER curve (using DBPSK)
   \graph{problem1/rayleigh/dbpsk/4_3.pdf}
 \end{outline}
 
