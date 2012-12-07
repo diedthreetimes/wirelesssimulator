@@ -9,7 +9,7 @@ m = 3;
 no_csi = 1;
 use_soft = 0;
 no_interleave = 0;
-use_dbpsk = 0;
+use_dbpsk = 1;
 
 slow_vehicle = 1;
 if slow_vehicle
@@ -23,24 +23,27 @@ command = 1;
 
 %% Do Search
 if command == 1
-    ms = [8]
+    rayleigh = 1;
+   
+    ms = [2]
     ns = [2; 3]
     for k = 1:length(ms)
         m = ms(k)
         for p = 1:length(ns)
             n = ns(p)
             per = all_codes(m, n);
-
-            num_best = min(3,length(per));
+            
+            num_best = min(3,size(per,1));
     
             min_ebno = ones(num_best,1).'*999;
             min_ber = ones(num_best,1).'*0.5;
             best_per = ones(num_best,n)*-1;
-    
-            figure; hold off;
-            for i = 1:length(per)
-                [ebnos, bers] = full_ber_curve( per(i,:) );
-        
+
+
+            for i = 1:size(per,1)
+                figure;
+                  
+                [ebnos, bers] = full_ber_curve( per(i,:), rayleigh );
                 target_ebno = 999;
                 target_ber = 1;
                 for j=1:length(ebnos)
@@ -66,23 +69,33 @@ if command == 1
                     min_ber(ind) = target_ber;
                     best_per(ind,:) = per(i,:);
                 end
+                
+                close gcf;
             end
-    
+           
+            
             figure;
             labels = {};
             mrks = ['-.or'; '-.xb'; '-.*g'; '-.^y'; '-.+k'];
-            for i=1:length(best_per)
+            for i=1:size(best_per,1)
                 % We found a decent code
                 if min_ebno(i) < 999
-                    [ebnos, bers] = full_ber_curve( best_per(i,:), 0, strcat('Comparison of codes for (',num2str(m),',',num2str(n),')'), mrks(i,:) );
+                    [ebnos, bers] = full_ber_curve( best_per(i,:), rayleigh, strcat('Comparison of codes for (',num2str(m),',',num2str(n),')'), mrks(i,:) );
                     hold all;
                 end
                 labels = [labels; strcat('(', num2str(best_per(i,:)), ')')];
             end
             legend(labels);
 
-            mkdir('problem1/');
-            saveas(gcf, strcat('problem1/',num2str(m),'_',num2str(n)), 'fig');
+            dir = 'problem1/'
+            if rayleigh
+                dir = strcat(dir, 'rayleigh/')
+            end
+            if use_dbpsk
+                dir = strcat(dir, 'dbpsk/')
+            end
+            mkdir(dir);
+            saveas(gcf, strcat(dir,num2str(m),'_',num2str(n)), 'fig');
     
             min_ebno
             min_ber
