@@ -1,6 +1,6 @@
 % Convert all figures to pdf
 
-files = getAllFiles('problem4')
+files = [getAllFiles('problem4'); getAllFiles('problem1')]
 
 for i=1:length(files)
     
