@@ -6,19 +6,19 @@ global trellis use_rayleigh use_dbpsk m n ebno no_csi use_soft no_interleave ran
 %%%%%%%%%%%%%%%%%%%%%   Configuration Paramaters  %%%%%%%%%%%%%%%%%%%%
 n = 2;             % R inverse (the rate of expansion of bits to coded bits)
 m = 3;             % The number of look back bits (memory registers)
-no_csi = 0;        % Turn Channel State Information off
-use_soft = 1;      % Use soft decision decoding (instaed of hard decision)
-no_interleave = 0; % Turn off block interleaving
-use_dbpsk = 0;     % Use dbpsk instead of bpsk modulation (don't use with sdd)
-rayleigh = 1;      % Use flat rayleigh fading in addition to AWGN
+no_csi = 0;        % [0/1] Turn Channel State Information off
+use_soft = 0;      % [0/1] Use soft decision decoding (instaed of hard decision)
+no_interleave = 0; % [0/1] Turn off block interleaving
+use_dbpsk = 0;     % [0/1] Use dbpsk instead of bpsk modulation (don't use with sdd)
+rayleigh = 1;      % [0/1] Use flat rayleigh fading in addition to AWGN
 code = [5 7];      % A convolution code (matching m and n) specified in decimal 
-slow_vehicle = 1;  % Vehicle speed. Slow is 3km/h. Not slow is 120km/h 
+slow_vehicle = 0;  % [0/1] Vehicle speed. Slow is 3km/h. Not slow is 120km/h 
 
 %Commands
 % 1: Run the search algorithim with above settings
 % 2: Run problem 4. The above settings don't affect it
 % 3: Plot a single ber curve with the above settings
-command = 3;
+command = 3; % [1|2|3]
 
 %Command specific paramaters
 
@@ -48,15 +48,20 @@ if command == 1
             n = ns(p)
             per = all_codes(m, n);
             
+            % How many codes to keep
             num_best = min(3,size(per,1));
     
             min_ebno = ones(num_best,1).'*999;
             min_ber = ones(num_best,1).'*0.5;
             best_per = ones(num_best,n)*-1;
 
+            % Loop through each code
             figure; hold off;
             for i = 1:size(per,1)
                 [ebnos, bers] = full_ber_curve( per(i,:), rayleigh );
+                
+                % Find the ebno that goes over 10^-3 we use this for
+                % comparison
                 target_ebno = 999;
                 target_ber = 1;
                 for j=1:length(ebnos)
@@ -84,7 +89,8 @@ if command == 1
                 end
             end
             close gcf;
-            
+        
+            % Plot the best codes on a single plot
             figure;
             labels = {};
             mrks = ['-.or'; '-.xb'; '-.*g'; '-.^y'; '-.+k'];
@@ -98,6 +104,7 @@ if command == 1
             end
             legend(labels);
 
+            % Configure save dir based on our paramaters
             dir = 'problem1/'
             if rayleigh
                 dir = strcat(dir, 'rayleigh/')
@@ -108,6 +115,7 @@ if command == 1
             mkdir(dir);
             saveas(gcf, strcat(dir,num2str(m),'_',num2str(n)), 'fig');
     
+            % Print the best codes, and the very best
             min_ebno
             min_ber
             best_per
@@ -222,9 +230,9 @@ elseif command == 2
     saveas(gcf, 'problem4/ray/dbpsk-mobility', 'fig')
     
 elseif command == 3
+    % Most paramaters are globals
     figure;
     full_ber_curve(code, rayleigh);
+    
+    saveas(gcf, 'ebno', 'png')
 end
-
-
-%print(gcf, 'ebno.png', '-dpng')

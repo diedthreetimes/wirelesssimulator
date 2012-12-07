@@ -3,6 +3,8 @@ This is How you run the simulation
 
 It will vary E_b/N_0 over time and plot the resulting BER. Enjoy :)
 
+See main.m for configuration paramaters, and run modes.
+
 Sky & Kyle
 
 
