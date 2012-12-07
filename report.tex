@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{outline}
 \usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
 
 %opening
 \title{CS 236 Wireless Networking Project}
@@ -97,9 +98,9 @@ In this section, we present the results and discussion for each of the problems 
 \subsubsection{M=2}
 
 \begin{outline}
-  \item The best generator polynomial was (5,7).
+  \item The best generator polynomial was (2, 3).
   \item Encoder schematic
-  \circuit{5_7_circuit_digram.png}
+  \circuit{2_2_circuit_diagram.png}
 
   \item AWGN channel BER curve
   \graph{problem1/2_2.pdf}
@@ -112,10 +113,29 @@ In this section, we present the results and discussion for each of the problems 
 \subsubsection{M=3}
 
 \begin{outline}
-  \item Best generator polynomials
-  \item Encoder schematics
+  \item Best generator polynomials are (5,7).
+  \item Encoder schematic
+  \circuit{3_2_circuit_diagram.png}
+
   \item AWGN channel BER curve
+  \graph{problem1/3_2.pdf}
+
   \item Low mobility Rayleigh flat fading channel BER curve
+  \graph{problem1/rayleigh/dbpsk/3_2.pdf}
+\end{outline}
+
+\subsubsection{M=4}
+
+\begin{outline}
+  \item Best generator polynomials are (13, 15).
+
+  \item We did not draw an encoder schematic for M=4 because it got pretty messy.
+
+  \item AWGN channel BER curve
+  \graph{problem1/4_2.pdf}
+
+  \item Low mobility Rayleigh flat fading channel BER curve
+  \graph{problem1/rayleigh/dbpsk/4_2.pdf}
 \end{outline}
 
 %%%%%%%%%%%%%%%%%%%%%%   #2   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,20 +144,46 @@ In this section, we present the results and discussion for each of the problems 
 \subsubsection{M=2}
 
 \begin{outline}
-  \item Best generator polynomials
-  \item Encoder schematics
+  \item Best generator polynomial is (1, 2, 3)
+
+  \item Encoder schematic
+  \circuit{2_3_circuit_diagram.png}
+
   \item AWGN channel BER curve
+  \graph{problem1/2_3.pdf}
+
   \item Low mobility Rayleigh flat fading channel BER curve
+  \graph{problem1/rayleigh/dbpsk/2_3.pdf}
 \end{outline}
 
 
 \subsubsection{M=3}
 
 \begin{outline}
-  \item Best generator polynomials
-  \item Encoder schematics
+  \item Best generator polynomial is (5, 6, 7)
+
+  \item Encoder schematic
+  \circuit{3_3_circuit_diagram.png}
+
   \item AWGN channel BER curve
+  \graph{problem1/3_3.pdf}
+
   \item Low mobility Rayleigh flat fading channel BER curve
+  \graph{problem1/rayleigh/dbpsk/3_3.pdf}
+\end{outline}
+
+\subsubsection{M=4}
+
+\begin{outline}
+  \item Best generator polynomial is (9, 11, 15)
+
+  \item We did not draw an encoder schematic because it got really messy.
+
+  \item AWGN channel BER curve
+  \graph{problem1/4_3.pdf}
+
+  \item Low mobility Rayleigh flat fading channel BER curve
+  \graph{problem1/rayleigh/dbpsk/4_3.pdf}
 \end{outline}
 
 
