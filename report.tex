@@ -192,36 +192,41 @@ In this section, we present the results and discussion for each of the problems 
 \subsubsection{Differing values of M}
 Increasing M will always decrease the required \ebno for a BER at \ber generally by around a complete factor of 10. 
 \subsubsection{With and without fading}
-
+Fading makes the BER extremely high unless CSI is used. As mentioned, if BPSK is the modulation scheme fading makes the channel completely unusable even with high M.
 \subsubsection{R=1/2 vs. R=1/3}
-
+Increasing the rate drastically improves the BER. For example, for M=4 at the same \ebno value R=1/3 has an order of magnitude improvment over R=1/2.
 \subsubsection{Are the best encoders over AWGN channels also the best encoders over at fading
 channels?}
-
+Yes, the best convolution codes for just AWGN channels are also the best (or nearly the best) for flat fading channels (over DBPSK).
 
 \subsection{Performance Comparisons Part \# 2}
 
 \subsubsection{HDD vs. SDD over AWGN}
-
+SDD is on average an order of magnitude lower BER as shown in the graph below.
 \graph{problem4/awgn/hddvssdd.pdf}
 
-
-
 \subsubsection{HDD with/without CSI and SDD with/without CSI over Rayleigh flat fading channel (low mobility)}
-
+Without CSI the channel is unusable as previously mentioned. The graph below illustrates this for BPSK modulation. As with AWGN channels SDD provides an order of magnitude improvment for a given \ebno.
 \graph{problem4/ray/csi.pdf}
 
 \subsubsection{Interleaving vs. no interleaving over Rayleigh flat fading channel (low mobility and HDD)}
-
+Interleaving has little affect on the BER when considering flat fadding. This makes sense, as interleaving is to prevent burst noise/interference, which flat fading and AWGN do not model.
 \graph{problem4/ray/interleave.pdf}
 
-\subsubsection{Low vs. high mobility over Rayleigh flat fading channel (HDD)}
-
+\subsubsection{Low vs. high mobility over Rayleigh flat fading channel (HDD+DBPSK)}
+Mobility makes a significant difference but it is not as large as the other features discussed previously. Slower moving vehicles have a smaller BER as expected.
 \graph{problem4/ray/dbpsk-mobility.pdf}
-% m=3, n=3
-%best_per = 5 6 7
 
-
-%\section{Additional Features}
-%BPSK vs DBPSK
+\section{Additional Features}
+\subsection{BPSK vs DBPSK}
+In most of our fading examples DBPSK was used. BPSK is mad for moving objects, because a small movemnt will effectively randomize the phase and thus the decoded bit. DBPSK does not suffer as much for this problem. CSI, can also solve the issue but requires extra processing to obtain.
 \end{document}
+
+
+
+
+
+
+
+
+
