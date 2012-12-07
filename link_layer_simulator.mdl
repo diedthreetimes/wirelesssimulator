@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.276"
+    ComputedModelVersion    "1.288"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -37,9 +37,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "skyf"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Dec  6 01:10:22 2012"
-  RTWModifiedTimeStamp	  276656618
-  ModelVersionFormat	  "1.%<AutoIncrement:276>"
+  LastModifiedDate	  "Thu Dec  6 21:59:17 2012"
+  RTWModifiedTimeStamp	  276731102
+  ModelVersionFormat	  "1.%<AutoIncrement:288>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -76,6 +76,7 @@ Model {
     $ObjectID		    2
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "simulate"
+    signals_		    []
     overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
@@ -826,7 +827,7 @@ Model {
   }
   System {
     Name		    "link_layer_simulator"
-    Location		    [495, 271, 1873, 1079]
+    Location		    [437, 236, 1815, 1044]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200

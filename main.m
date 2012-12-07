@@ -6,10 +6,10 @@ global trellis use_rayleigh use_dbpsk m n ebno no_csi use_soft no_interleave ran
 %%%%%%%%%%%%%%%%%%%%%   Configuration Paramaters  %%%%%%%%%%%%%%%%%%%%
 n = 2;             % R inverse (the rate of expansion of bits to coded bits)
 m = 3;             % The number of look back bits (memory registers)
-no_csi = 1;        % Turn Channel State Information off
-use_soft = 0;      % Use soft decision decoding (instaed of hard decision)
+no_csi = 0;        % Turn Channel State Information off
+use_soft = 1;      % Use soft decision decoding (instaed of hard decision)
 no_interleave = 0; % Turn off block interleaving
-use_dbpsk = 0;     % Use dbpsk instead of bpsk modulation
+use_dbpsk = 0;     % Use dbpsk instead of bpsk modulation (don't use with sdd)
 rayleigh = 1;      % Use flat rayleigh fading in addition to AWGN
 code = [5 7];      % A convolution code (matching m and n) specified in decimal 
 slow_vehicle = 1;  % Vehicle speed. Slow is 3km/h. Not slow is 120km/h 
@@ -18,7 +18,7 @@ slow_vehicle = 1;  % Vehicle speed. Slow is 3km/h. Not slow is 120km/h
 % 1: Run the search algorithim with above settings
 % 2: Run problem 4. The above settings don't affect it
 % 3: Plot a single ber curve with the above settings
-command = 1;
+command = 3;
 
 %Command specific paramaters
 
@@ -179,7 +179,22 @@ elseif command == 2
     legend('No Interleave', 'Interleave')
     saveas(gcf, 'problem4/ray/interleave', 'fig')
     
+    %% Interleaving with dbpsk
+    use_dbpsk = 1;
+    use_soft = 0;
+    no_interleave = 1;
+    no_csi = 1;
+    figure
+    full_ber_curve( code, 1, 'HDD -CSI no interleaving over flat rayleigh (DBPSK)','-.or')
+    hold all;
+    
+    no_interleave = 0;
+    full_ber_curve( code, 1, 'interleaving vs no interleaving with HDD-CSI and flat rayleigh (DBPSK)','-.xb')
+    legend('No Interleave', 'Interleave')
+    saveas(gcf, 'problem4/ray/dbpsk-interleave', 'fig')
+    
     %% Mobility
+    use_dbpsk = 0;
     no_interleave = 0;
     use_soft = 0;
     
@@ -192,7 +207,7 @@ elseif command == 2
     legend('Low Mobility', 'High Mobility')
     saveas(gcf, 'problem4/ray/mobility', 'fig')
     
-    %% DBPSK
+    %% DBPSK mobility
     no_interleave = 0;
     use_soft = 0;
     use_dbpsk = 1;
@@ -207,6 +222,7 @@ elseif command == 2
     saveas(gcf, 'problem4/ray/dbpsk-mobility', 'fig')
     
 elseif command == 3
+    figure;
     full_ber_curve(code, rayleigh);
 end
 
